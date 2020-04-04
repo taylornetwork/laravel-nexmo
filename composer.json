@@ -1,0 +1,35 @@
+{
+    "name": "taylornetwork/laravel-nexmo",
+    "require": {
+        "illuminate/support": "^7.4",
+        "php": "^7.3",
+        "nexmo/laravel": "^2.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sam Taylor",
+            "email": "sam@taylornetwork.ca"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "TaylorNetwork\\LaravelNexmo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TaylorNetwork\\LaravelNexmo\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TaylorNetwork\\LaravelNexmo\\NexmoServiceProvider"
+            ]
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^5.1"
+    }
+}
