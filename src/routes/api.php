@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('\\TaylorNetwork\\LaravelNexmo\\Controllers\\API')
      ->middleware('api')
-     ->prefix('api/nexmo')
+     ->prefix('nexmo')
      ->as('api.nexmo.')
      ->group(function () {
 

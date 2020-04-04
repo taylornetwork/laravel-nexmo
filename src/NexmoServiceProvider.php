@@ -19,6 +19,8 @@ class NexmoServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__.'/migrations');
+
+        app()->bind('NccoBuilder', NccoBuilder::class);
     }
 
 }

@@ -147,16 +147,15 @@ class NccoBuilder implements BuildsNcco, BuildsNccoActions
         return $this;
     }
 
+
     /**
-     * Handle static calls
+     * toString yields JSON NCCO
      *
-     * @param $name
-     * @param $arguments
-     * @return mixed
+     * @return string
      */
-    public static function __callStatic($name, $arguments)
+    public function __toString(): string
     {
-        return (new static)->$name(...$arguments);
+        return $this->getJsonNcco();
     }
 
 }

@@ -1,8 +1,8 @@
 {
     "name": "taylornetwork/laravel-nexmo",
     "require": {
-        "illuminate/support": "^7.4",
-        "php": "^7.3",
+        "illuminate/support": ">=5.5",
+        "php": ">=7.3",
         "nexmo/laravel": "^2.2"
     },
     "license": "MIT",

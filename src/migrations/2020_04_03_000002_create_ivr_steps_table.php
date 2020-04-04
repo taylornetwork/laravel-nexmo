@@ -17,8 +17,8 @@ class CreateIvrStepsTable extends Migration
             $table->id();
             $table->integer('ivr_id')->index();
             $table->string('action');
-            $table->json('options')->default('{}');
-            $table->integer('order')->autoIncrement();
+            $table->json('options')->nullable();
+            $table->integer('order')->default(100);
             $table->timestamps();
         });
     }

@@ -5,7 +5,7 @@ namespace TaylorNetwork\LaravelNexmo\Controllers\Api;
 
 use Illuminate\Http\Request;
 use TaylorNetwork\LaravelNexmo\Models\Ivr;
-use TaylorNetwork\LaravelNexmo\NccoBuilder;
+use TaylorNetwork\LaravelNexmo\Facades\NccoBuilder;
 
 class CallController extends ApiController
 {
@@ -30,7 +30,10 @@ class CallController extends ApiController
             //
         }
 
-        return NccoBuilder::talk('This answer webhook has not been properly set up.')
-            ->talk('Please consult the Taylor Network, Laravel Nexmo, Read Me.');
+
+
+        return response()->json(NccoBuilder::talk('This answer webhook has not been properly set up.')
+            ->talk('Please consult the Taylor Network Laravel Nexmo Read Me.')
+            ->getNcco());
     }
 }
