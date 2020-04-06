@@ -14,11 +14,25 @@ interface BuildsNcco
     public function getNcco(): array;
 
     /**
+     * Same as getNcco()
+     *
+     * @return array
+     */
+    public function ncco(): array;
+
+    /**
      * Encode the NCCO stack to JSON
      *
      * @return string
      */
     public function getJsonNcco(): string;
+
+    /**
+     * Same as getJsonNcco()
+     *
+     * @return string
+     */
+    public function json(): string;
 
     /**
      * Append to the NCCO stack

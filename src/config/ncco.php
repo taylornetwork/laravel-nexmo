@@ -23,4 +23,23 @@ return [
     ],
 
     'number' => env('NEXMO_NUMBER'),
+
+    /*
+     * Namespace for your API controllers
+     */
+    'api_controller_namespace' => 'App\\Http\\Controllers\\Api\\',
+
+    /*
+     * Your app's call controller, if it can't be found with this alone, it will check in
+     * the api_controller_namespace
+     */
+    'call_controller_class' => 'CallController',
+
+    /*
+     * Your app's answer method, it will be called as
+     *    $yourAppControllerClass->answer($request);
+     *
+     * It should return a JSON NCCO
+     */
+    'answer_method' => 'answer',
 ];

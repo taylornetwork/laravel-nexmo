@@ -3,14 +3,17 @@
 
 namespace TaylorNetwork\LaravelNexmo;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use TaylorNetwork\LaravelNexmo\Contracts\BuildsNcco;
 use TaylorNetwork\LaravelNexmo\Contracts\BuildsNccoActions;
+use TaylorNetwork\LaravelNexmo\Contracts\RespondsWithJsonNcco;
 use TaylorNetwork\LaravelNexmo\Traits\ActionsHaveDefaults;
+use TaylorNetwork\LaravelNexmo\Traits\SimpleJsonResponse;
 
-class NccoBuilder implements BuildsNcco, BuildsNccoActions
+class NccoBuilder implements BuildsNcco, BuildsNccoActions, RespondsWithJsonNcco
 {
-    use ActionsHaveDefaults;
+    use ActionsHaveDefaults, SimpleJsonResponse;
 
     /**
      * The NCCO Stack
@@ -46,6 +49,23 @@ class NccoBuilder implements BuildsNcco, BuildsNccoActions
     {
         return json_encode($this->ncco);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function ncco(): array
+    {
+        return $this->getNcco();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function json(): string
+    {
+        return $this->getJsonNcco();
+    }
+
 
     /**
      * @inheritDoc
@@ -155,7 +175,16 @@ class NccoBuilder implements BuildsNcco, BuildsNccoActions
      */
     public function __toString(): string
     {
-        return $this->getJsonNcco();
+        return $this->json();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function buildResponse(int $httpStatus = 200): JsonResponse
+    {
+        return response()->json($this->ncco(), $httpStatus);
+    }
+
 
 }

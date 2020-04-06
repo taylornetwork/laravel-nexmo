@@ -3,6 +3,9 @@
 
 namespace TaylorNetwork\LaravelNexmo\Models;
 
+use Closure;
+use Illuminate\Http\Request;
+
 class IvrStep extends Model
 {
     protected $fillable = [
@@ -18,7 +21,29 @@ class IvrStep extends Model
 
     public function getOptionsAttribute()
     {
-        return json_decode($this->attributes['options'], true);
+        return $this->checkForReplaceValues(json_decode($this->attributes['options'], true));
+    }
+
+    // @todo this is not going to work as expected I'm SURE
+    
+    public function checkForReplaceValues(array $options)
+    {
+        foreach($options as $key => $value) {
+            if(is_array($value)) {
+                return $this->checkForReplaceValues($value);
+            }
+
+            if(preg_match_all('/{.*}/', $value, $matches) > 0) {
+                dd($matches);
+            }
+        }
+
+        return $options;
+    }
+
+    public function replaceValue()
+    {
+
     }
 
     public function setOptionsAttribute(array $value)
@@ -43,5 +68,10 @@ class IvrStep extends Model
                 $this->attributes['order'] = static::where('ivr_id', $step->attributes['ivr_id'])->get()->count();
             }
         });
+    }
+
+    public function handleRequestCallback(Request $request, Closure $closure)
+    {
+        $closure($this);
     }
 }

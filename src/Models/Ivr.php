@@ -3,11 +3,17 @@
 
 namespace TaylorNetwork\LaravelNexmo\Models;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use TaylorNetwork\LaravelNexmo\Contracts\RespondsWithJsonNcco;
 use TaylorNetwork\LaravelNexmo\NccoBuilder;
+use TaylorNetwork\LaravelNexmo\Traits\SimpleJsonResponse;
 
-class Ivr extends Model
+class Ivr extends Model implements RespondsWithJsonNcco
 {
+    use SimpleJsonResponse;
+
     protected $fillable = [
         'name',
         'slug',
@@ -18,15 +24,21 @@ class Ivr extends Model
         return $this->hasMany(IvrStep::class)->orderBy('order', 'asc');
     }
 
-    public function build(bool $asJson = false)
+    public function build(Request $request = null): array
     {
+        if($request === null) {
+            $request = request();
+        }
+
         $builder = new NccoBuilder();
 
         foreach($this->ivrSteps as $step) {
-            $builder->addAction($step->action, $step->options);
+            $step->handleRequestCallback($request, function (IvrStep $step) use ($builder) {
+                $builder->addAction($step->action, $step->options);
+            });
         }
 
-        return $asJson ? $builder->getJsonNcco() : $builder->getNcco();
+        return $builder->getNcco();
     }
 
     public function bootSlugify()
@@ -37,4 +49,19 @@ class Ivr extends Model
             }
         });
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function buildResponse(int $httpStatus = 200): JsonResponse
+    {
+        return response()->json($this->build(), $httpStatus);
+    }
+
+
 }

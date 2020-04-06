@@ -26,7 +26,10 @@
         "laravel": {
             "providers": [
                 "TaylorNetwork\\LaravelNexmo\\NexmoServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "NccoBuilder": "TaylorNetwork\\LaravelNexmo\\Facades\\NccoBuilder"
+            }
         }
     },
     "require-dev": {
