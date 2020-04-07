@@ -8,7 +8,7 @@
 - [ ] Implement a very simple IVR builder
 - [x] Handle answering voice calls 
 - [x] Route calls to correct IVR menu
-- [ ] Handle incoming SMS
+- [x] Handle incoming SMS
 - [ ] Handle outgoing SMS
 - [ ] Very simple real time SMS chat 
 
