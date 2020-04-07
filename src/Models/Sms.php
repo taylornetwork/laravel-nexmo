@@ -8,12 +8,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Nexmo\Client;
 use Nexmo\Message\InboundMessage;
-use Nexmo\Message\Text;
 
 class Sms extends Model
 {
     protected $fillable = [
-        'to', 'from', 'message_id', 'account_id', 'network', 'body', 'received_at', 'sent_at',
+        'to', 'from', 'message_id', 'network', 'text', 'received_at', 'sent_at', 'price',
     ];
 
     protected $dates = [ 'received_at', 'sent_at' ];
@@ -26,9 +25,8 @@ class Sms extends Model
             'from' => $message->getFrom(),
             'to' => $message->getTo(),
             'message_id' => $message->getMessageId(),
-            'account_id' => $message->getAccountId(),
             'network' => $message->getNetwork(),
-            'body' => $message->getBody(),
+            'text' => $message->getBody(),
             'received_at' => Carbon::now(),
         ]);
     }
@@ -55,18 +53,21 @@ class Sms extends Model
 
     public function send()
     {
+        if($this->isSent) {
+            return false;
+        }
+
         try {
-            $message = app(Client::class)->message()->send($this->only(['to','from','body']));
+            $message = app(Client::class)->message()->send($this->only(['to','from','text']));
         } catch (\Exception $exception) {
             return false;
         }
 
         $this->update([
             'sent_at' => Carbon::now(),
-            'price' => $message->getPrice() ?? null,
-            'message_id' => $message->getMessageId() ?? null,
-            'account_id' => $message->getAccountId() ?? null,
-            'network' => $message->getNetwork() ?? null,
+            'price' => $message->getPrice(),
+            'message_id' => $message->getMessageId(),
+            'network' => $message->getNetwork(),
         ]);
 
         return true;
