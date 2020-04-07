@@ -13,12 +13,10 @@ class EventController extends ApiController
     {
         try {
             Call::handleEventUpdate($request);
-        } catch(Exception $exception) {
-            if(config('app.debug', false) && config('app.env', 'production') === 'local') {
-                return response($exception->getMessage(), 500);
-            }
-            return response('Unexpected Error', 500);
+        } catch (Exception $exception) {
+            return $this->prepareExceptionResponse($exception);
         }
         return response('OK', 200);
+
     }
 }
