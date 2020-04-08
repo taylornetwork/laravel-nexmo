@@ -22,6 +22,6 @@ class SmsController extends ApiController
 
     public function handleOutboundMessage(Request $request)
     {
-        return redirect()->route('sms.send', Sms::storeOutboundMessage($request));
+        return redirect()->route('api.nexmo.sms.send', Sms::storeOutboundMessage($request));
     }
 }

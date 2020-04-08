@@ -14,7 +14,7 @@ class NexmoServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/config/ncco.php', 'ncco');
 
-        $this->publishes([ __DIR__ . '/resources/assets' => resource_path('assets/vendor/taylornetwork/laravel-nexmo')], 'assets');
+        $this->publishes([ __DIR__ . '/resources' => resource_path('vendor/taylornetwork/laravel-nexmo')], 'vue-components');
         $this->publishes([ __DIR__ . '/config' => config_path()], 'config');
         $this->publishes([ __DIR__ . '/migrations' => database_path('migrations')], 'migrations');
     }
