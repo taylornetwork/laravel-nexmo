@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Nexmo\Client;
 use Nexmo\Message\InboundMessage;
+use TaylorNetwork\LaravelNexmo\Events\InboundMessageReceived;
+use TaylorNetwork\LaravelNexmo\Events\OutboundMessageSent;
 
 class Sms extends Model
 {
@@ -18,11 +20,13 @@ class Sms extends Model
 
     protected $dates = [ 'received_at', 'sent_at' ];
 
+    protected $appends = [ 'isInbound', 'isOutbound', 'isSent', 'direction' ];
+
     public static function storeInboundMessage(Request $request)
     {
         $message = InboundMessage::createFromGlobals();
 
-        return static::create([
+        $sms = static::create([
             'from' => $message->getFrom(),
             'to' => $message->getTo(),
             'message_id' => $message->getMessageId(),
@@ -30,6 +34,10 @@ class Sms extends Model
             'text' => $message->getBody(),
             'received_at' => Carbon::now(),
         ]);
+
+        event(new InboundMessageReceived($sms));
+
+        return $sms;
     }
 
     public static function storeOutboundMessage(Request $request)
@@ -97,6 +105,8 @@ class Sms extends Model
             'message_id' => $message->getMessageId(),
             'network' => $message->getNetwork(),
         ]);
+
+        event(new OutboundMessageSent($this));
 
         return true;
     }

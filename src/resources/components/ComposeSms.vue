@@ -3,15 +3,15 @@
         <div class="card-body">
             <div class="form-group">
                 <label>From</label>
-                <input class="form-control" type="text" readonly disabled :value="from" name="from">
+                <input class="form-control" type="text" readonly disabled v-model="from" name="from">
             </div>
             <div class="form-group">
                 <label>To</label>
-                <input class="form-control" type="text" v-bind="to" name="to" :disabled="sending">
+                <input class="form-control" type="text" v-model="to" name="to" :disabled="sending">
             </div>
             <div class="form-group">
                 <label>Text</label>
-                <textarea class="form-control" v-bind="text" rows="5" :disabled="sending"></textarea>
+                <textarea class="form-control" v-model="text" rows="5" :disabled="sending"></textarea>
             </div>
         </div>
         <div class="card-footer">
