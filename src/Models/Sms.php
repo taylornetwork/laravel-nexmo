@@ -6,6 +6,7 @@ namespace TaylorNetwork\LaravelNexmo\Models;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Nexmo\Client;
 use Nexmo\Message\InboundMessage;
 
@@ -31,6 +32,15 @@ class Sms extends Model
         ]);
     }
 
+    public static function storeOutboundMessage(Request $request)
+    {
+        return static::create([
+            'from' =>  Config::get('ncco.number'),
+            'to' => $request->to,
+            'text' => $request->text,
+        ]);
+    }
+
     public function getIsSentAttribute()
     {
         return $this->sent_at !== null && $this->received_at === null;
@@ -53,7 +63,7 @@ class Sms extends Model
 
     public function send()
     {
-        if($this->isSent) {
+        if($this->isSent || $this->isInbound) {
             return false;
         }
 

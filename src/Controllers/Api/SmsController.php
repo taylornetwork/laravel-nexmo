@@ -14,9 +14,14 @@ class SmsController extends ApiController
         return response('OK', 200);
     }
 
-    public function handleOutboundMessage(Sms $sms, Request $request)
+    public function send(Sms $sms, Request $request)
     {
         $sms->send();
         return response('OK', 200);
+    }
+
+    public function handleOutboundMessage(Request $request)
+    {
+        return redirect()->route('sms.send', Sms::storeOutboundMessage($request));
     }
 }
