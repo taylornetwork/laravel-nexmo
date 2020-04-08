@@ -61,6 +61,24 @@ class Sms extends Model
         return $this->received_at === null;
     }
 
+    public static function compose(string $to, string $text): Sms
+    {
+        return static::create([
+            'to' => $to,
+            'text' => $text,
+            'from' => Config::get('ncco.number'),
+        ]);
+    }
+
+    public function reply(string $text)
+    {
+        if($this->isOutbound) {
+            return false;
+        }
+
+        return static::compose($this->from, $text);
+    }
+
     public function send()
     {
         if($this->isSent || $this->isInbound) {
