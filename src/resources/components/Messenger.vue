@@ -72,10 +72,14 @@
             windowHeight(val) {
                 this.divHeight = this.factor * val;
             },
+
+            stack(val) {
+                this.scroll();
+            }
         },
 
         updated() {
-            this.$refs.scroller.scrollTop = this.$refs.scroller.scrollHeight;
+            this.scroll();
         },
 
         created() {
@@ -101,7 +105,7 @@
                 });
             });
 
-            this.$refs.scroller.scrollTop = this.$refs.scroller.scrollHeight;
+            this.scroll();
         },
 
         methods: {
@@ -116,6 +120,10 @@
                     };
                     this.sending = false;
                 });
+            },
+
+            scroll() {
+                this.$refs.scroller.scrollTop = this.$refs.scroller.scrollHeight;
             }
         },
     }
