@@ -1,5 +1,8 @@
 <template>
     <div>
+        <h4>
+            Chat with {{ contact }}
+        </h4>
         <div ref="scroller" :style="{ height: divHeight + 'px', overflow: 'scroll' }">
             <div v-for="message in stack">
                 <div v-if="message.isInbound" class="col-md-6">
@@ -22,7 +25,7 @@
         <hr>
         <div class="sticky-bottom">
             <div class="form-group">
-                <input type="text" v-model="message.text" class="form-control" placeholder="Enter a message..." :disabled="sending" autofocus>
+                <textarea v-model="message.text" class="form-control" placeholder="Enter a message..." rows="3" :disabled="sending" autofocus></textarea>
             </div>
             <button class="btn btn-block btn-success" :disabled="sending || message.text.length === 0" @click="send()">
                 {{ sending ? 'Sending...' : 'Send' }}
@@ -38,6 +41,7 @@
         props: {
             number: { type: String, required: true },
             messages: { required: false },
+            name: { type: String, required: false }
         },
 
         data() {
@@ -51,7 +55,16 @@
                 },
                 divHeight: 0,
                 windowHeight: 0,
-                factor: 0.55,
+                factor: 0.45,
+            }
+        },
+
+        computed: {
+            contact() {
+                if(this.name) {
+                    return this.name + ' (' + this.number + ')';
+                }
+                return this.number;
             }
         },
 
@@ -76,17 +89,15 @@
         },
 
         mounted() {
-            let self = this;
-
             let channel = pusherInstance.subscribe('messenger.' + this.number);
             channel.bind('inbound.message', payload => {
                 console.log(payload);
                 this.stack.push(payload.sms);
             });
 
-            this.$nextTick(function () {
-                window.addEventListener('resize', function(e) {
-                    self.windowHeight = window.innerHeight
+            this.$nextTick(() => {
+                window.addEventListener('resize', () => {
+                    this.windowHeight = window.innerHeight
                 });
             });
 

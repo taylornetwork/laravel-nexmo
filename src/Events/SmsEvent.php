@@ -23,7 +23,7 @@ abstract class SmsEvent extends Event
 
     public function getChannel()
     {
-        return 'messenger.'.$this->direction.'.'.$this->contact;
+        return 'messenger.'.$this->contact;
     }
 
     public function broadcastAs()
