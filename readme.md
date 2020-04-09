@@ -10,7 +10,7 @@
 - [x] Route calls to correct IVR menu
 - [x] Handle incoming SMS
 - [x] Handle outgoing SMS
-- [ ] Very simple real time SMS chat 
+- [x] Very simple real time SMS chat 
 
 ## Install
 
@@ -25,6 +25,35 @@ $ composer require taylornetwork/laravel-nexmo
 ```bash
 $ php artisan migrate
 ```
+
+### Publish Assets
+
+```bash 
+$ php artisan vendor:publish --provider="TaylorNetwork\\LaravelNexmo\\NexmoServiceProvider"
+```
+
+Will publish config, migrations and js (vue) components.
+
+```
+config/
+    + ncco.php
+database/
+    migrations/
+        + 2020_04_03_000000_create_calls_table.php
+        + 2020_04_03_000001_create_ivrs_table.php
+        + 2020_04_03_000002_create_ivr_steps_table.php
+        + 2020_04_07_000003_create_sms_table.php
+resources/
+    vendor/
+        taylornetwork/
+            laravel-nexmo/
+                components/
+                    + ComposeSms.vue
+                    + Messenger.vue
+                + laravel-nexmo.js
+```
+
+If you're going to be using the included vue components, see [Vue Components](#vue-components).
 
 ### Add your Vonage (Nexmo) information 
 
@@ -69,7 +98,7 @@ Currently no easy way to do this other than adding the entries manually.
 
 By default the package will look for `App\Http\Controllers\Api\CallController` 
 
-This is customizable by publishing config (which I haven't implmented yet lol).
+This is customizable by publishing config.
 
 ```php
 namespace App\Http\Controllers\Api;
@@ -192,6 +221,67 @@ The `TaylorNetwork\LaravelNexmo\Models\Sms` model handles all incoming and outgo
 **send()**
 
 Calling this method will send the message if it's hasn't been sent yet, as long as it's an outgoing message.
+
+### Vue Components
+
+#### Setup
+
+If you're going to be using the included Vue components you'll need to make sure you have all the required dependencies.
+
+```bash
+$ npm install --save vue vue-template-compiler axios pusher-js 
+```
+
+Set your Pusher app key in `laravel-nexmo.js`
+
+```js
+// laravel-nexmo.js
+
+window.pusherInstance = new Pusher('your-pusher-app-key', {
+    cluster: 'us2',
+    forceTLS: true,
+    encrypted: true,
+});
+```
+
+Require `laravel-nexmo.js` in your `app.js` file **after** `window.Vue = require('vue');` and **before** creating a new Vue instance.
+
+```js
+// app.js
+
+window.Vue = require('vue');
+
+// This assumes your app.js file is at resources/js
+require('../vendor/taylornetwork/laravel-nexmo/laravel-nexmo');
+
+const app = new Vue({
+    el: '#app',
+});
+
+```
+
+#### ComposeSms
+
+The `ComposeSms` component is an easy starting point to send an SMS to a number using the nexmo number you've previously set up.
+
+```html
+<compose-sms></compose-sms>
+```
+
+#### Messenger
+
+The `Messenger` component is a very basic chat app using Pusher. 
+
+```html
+<!-- Minimum -->
+<messenger number="(number of the person the chat is with NOT your number)"></messenger>
+
+<!-- With a contact name -->
+<messenger number="(contact's number)" name="(contact's name)"></messenger>
+
+<!-- With a contact name and existing messages -->
+<messenger number="(contact's number)" name="(contact's name)" :messages="{{ $loadedMessagesFromDatabase }}"></messenger>
+```
 
 ## License
 

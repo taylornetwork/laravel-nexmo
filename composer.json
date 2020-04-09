@@ -3,7 +3,8 @@
     "require": {
         "illuminate/support": ">=5.5",
         "php": ">=7.3",
-        "nexmo/laravel": "^2.2"
+        "nexmo/laravel": "^2.2",
+        "pusher/pusher-php-server": "^4.1"
     },
     "license": "MIT",
     "authors": [
