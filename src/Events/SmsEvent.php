@@ -12,13 +12,16 @@ abstract class SmsEvent extends Event
 
     public $sms;
 
+    public $contact;
+
     public function __construct(Sms $sms)
     {
         $this->sms = $sms;
+        $this->contact = strtolower($this->direction) === 'outbound' ? $this->sms->to : $this->sms->from;
     }
 
-    public function broadcastOn()
+    public function getChannel()
     {
-        return new Channel('messenger.' . $this->direction . '.' . $this->sms->from);
+        return 'messenger.'.$this->direction.'.'.$this->contact;
     }
 }
