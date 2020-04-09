@@ -16,12 +16,18 @@ abstract class SmsEvent extends Event
 
     public function __construct(Sms $sms)
     {
+        $this->direction = strtolower($this->direction);
         $this->sms = $sms;
-        $this->contact = strtolower($this->direction) === 'outbound' ? $this->sms->to : $this->sms->from;
+        $this->contact = $this->direction === 'outbound' ? $this->sms->to : $this->sms->from;
     }
 
     public function getChannel()
     {
         return 'messenger.'.$this->direction.'.'.$this->contact;
+    }
+
+    public function broadcastAs()
+    {
+        return $this->direction . '.message';
     }
 }

@@ -37,7 +37,7 @@
     export default {
         props: {
             number: { type: String, required: true },
-            messages: { type: Array, default: []},
+            messages: { required: false },
         },
 
         data() {
@@ -66,8 +66,10 @@
         },
 
         created() {
-            for(let message of this.messages) {
-                this.stack.push(message);
+            if(this.messages) {
+                for(let message of this.messages) {
+                    this.stack.push(message);
+                }
             }
 
             this.divHeight = this.factor * window.innerHeight;
@@ -76,7 +78,8 @@
         mounted() {
             let self = this;
 
-            this.$echo.channel('messenger.inbound.' + this.number).listen('InboundMessageReceived', payload => {
+            let channel = pusherInstance.subscribe('messenger.' + this.number);
+            channel.bind('inbound.message', payload => {
                 console.log(payload);
                 this.stack.push(payload.sms);
             });
@@ -85,7 +88,7 @@
                 window.addEventListener('resize', function(e) {
                     self.windowHeight = window.innerHeight
                 });
-            })
+            });
 
             this.$refs.scroller.scrollTop = this.$refs.scroller.scrollHeight;
         },
