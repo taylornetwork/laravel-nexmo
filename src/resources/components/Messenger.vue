@@ -3,6 +3,7 @@
         <h4>
             Chat with {{ contact }}
         </h4>
+        <hr>
         <div ref="scroller" :style="{ height: divHeight + 'px', overflow: 'scroll' }">
             <div v-for="message in stack">
                 <div v-if="message.isInbound" class="col-md-6">
