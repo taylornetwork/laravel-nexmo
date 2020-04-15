@@ -5,7 +5,7 @@
 ## Package Status and Goals
 
 - [x] Build NCCOs
-- [ ] Implement a very simple IVR builder
+- [ ] Implement a very simple IVR builder (mostly done)
 - [x] Handle answering voice calls 
 - [x] Route calls to correct IVR menu
 - [x] Handle incoming SMS
@@ -48,8 +48,11 @@ resources/
         taylornetwork/
             laravel-nexmo/
                 components/
-                    + ComposeSms.vue
-                    + Messenger.vue
+                    Ivr/
+		        + IvrBuilder.vue
+		    Sms/ (not up to date)
+		        + Messenger.vue
+			+ ComposeSms.vue
                 + laravel-nexmo.js
 ```
 
@@ -273,6 +276,16 @@ const app = new Vue({
 });
 
 ```
+
+#### IvrBuilder
+
+The `IvrBuilder` component will allow you to pass an `Ivr` model instance and edit the structure of the IVR.
+
+```html
+<ivr-builder :ivr="{{ $ivr }}"></ivr-builder>
+```
+
+Where `$ivr` is an instance of `TaylorNetwork\LaravelNexmo\Models\Ivr`
 
 #### ComposeSms
 
