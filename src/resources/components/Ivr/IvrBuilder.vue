@@ -118,7 +118,7 @@
                         text: '',
                     },
                     stream: {
-                        url: '',
+                        streamUrl: [''],
                     },
                     input: {},
                     notify: {

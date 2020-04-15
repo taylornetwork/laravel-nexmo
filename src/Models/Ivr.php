@@ -26,6 +26,11 @@ class Ivr extends Model implements RespondsWithJsonNcco
 
     public function build(Request $request = null): array
     {
+        return $this->builder($request)->getNcco();
+    }
+
+    public function builder(Request $request = null): NccoBuilder
+    {
         if($request === null) {
             $request = request();
         }
@@ -38,7 +43,7 @@ class Ivr extends Model implements RespondsWithJsonNcco
             });
         }
 
-        return $builder->getNcco();
+        return $builder;
     }
 
     public function bootSlugify()
