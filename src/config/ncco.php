@@ -22,7 +22,15 @@ return [
         ],
     ],
 
+    /*
+     * Nexmo Number (LVN)
+     */
     'number' => env('NEXMO_NUMBER'),
+
+    /*
+     * Controller namespace
+     */
+    'controller_namespace' => 'App\\Http\\Controllers\\',
 
     /*
      * Namespace for your API controllers

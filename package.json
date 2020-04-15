@@ -1,8 +1,10 @@
 {
   "private": true,
   "dependencies": {
+    "vue": "^2.6.11",
+    "vue-template-compiler": "^2.6.11",
     "axios": "^0.19.2",
     "pusher-js": "^5.1.1",
-    "vue": "^2.6.11"
+    "v-jsoneditor": "^1.2.3"
   }
 }

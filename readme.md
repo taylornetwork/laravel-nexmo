@@ -229,7 +229,21 @@ Calling this method will send the message if it's hasn't been sent yet, as long 
 If you're going to be using the included Vue components you'll need to make sure you have all the required dependencies.
 
 ```bash
-$ npm install --save vue vue-template-compiler axios pusher-js 
+$ npm install --save vue vue-template-compiler axios pusher-js v-jsoneditor
+```
+
+Or import into your `package.json`
+
+```json
+{
+ "dependencies": {
+    "vue": "^2.6.11",
+    "vue-template-compiler": "^2.6.11",
+    "axios": "^0.19.2",
+    "pusher-js": "^5.1.1",
+    "v-jsoneditor": "^1.2.3"
+  }
+}
 ```
 
 Set your Pusher app key in `laravel-nexmo.js`

@@ -6,6 +6,8 @@ window.pusherInstance = new Pusher('your-pusher-app-key', {
     encrypted: true,
 });
 
-Vue.component('compose-sms', require('./components/ComposeSms.vue').default);
-Vue.component('messenger', require('./components/Messenger.vue').default);
+import VJsoneditor from 'v-jsoneditor'
 
+Vue.use(VJsoneditor)
+
+Vue.component('ivr-builder', require('./components/Ivr/IvrBuilder').default)

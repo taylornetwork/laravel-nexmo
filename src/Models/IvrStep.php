@@ -14,6 +14,10 @@ class IvrStep extends Model
         'order',
     ];
 
+    protected $appends = [
+        'prettyOptions',
+    ];
+
     public function ivr()
     {
         return $this->belongsTo(Ivr::class);
@@ -21,34 +25,32 @@ class IvrStep extends Model
 
     public function getOptionsAttribute()
     {
-        return $this->checkForReplaceValues(json_decode($this->attributes['options'], true));
+        return json_decode($this->attributes['options'], true);
     }
 
-    // @todo this is not going to work as expected I'm SURE
-    
-    public function checkForReplaceValues(array $options)
+    public function setOptionsAttribute($value)
     {
-        foreach($options as $key => $value) {
-            if(is_array($value)) {
-                return $this->checkForReplaceValues($value);
-            }
+        switch(gettype($value)) {
+            case 'string':
+                try {
+                    json_decode($value);
+                } catch (\Exception $exception) {
+                    throw new \Exception('Invalid JSON supplied to IvrStep->setOptionsAttribute');
+                }
+                break;
 
-            if(preg_match_all('/{.*}/', $value, $matches) > 0) {
-                dd($matches);
-            }
+            case 'array':
+            case 'object':
+                $value = json_encode($value);
+                break;
+
+            default:
+                throw new \Exception('IvrStep->setOptionsAttribute expected string|array|object and got ' . gettype($value));
         }
 
-        return $options;
-    }
+        dump($value);
 
-    public function replaceValue()
-    {
-
-    }
-
-    public function setOptionsAttribute(array $value)
-    {
-        $this->attributes['options'] = json_encode($value);
+        $this->attributes['options'] = $value;
     }
 
     public function getJsonOptionsAttribute()
@@ -56,7 +58,7 @@ class IvrStep extends Model
         return $this->attributes['options'];
     }
 
-    public function printJsonOptions()
+    public function getPrettyOptionsAttribute()
     {
         return json_encode($this->options, JSON_PRETTY_PRINT);
     }
