@@ -10,7 +10,7 @@
 - [x] Route calls to correct IVR menu
 - [x] Handle incoming SMS
 - [x] Handle outgoing SMS
-- [x] Very simple real time SMS chat 
+- [ ] Very simple real time SMS chat (being partially redone)
 
 ## Install
 
