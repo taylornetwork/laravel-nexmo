@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
 
-Route::namespace('\\TaylorNetwork\\LaravelNexmo\\Controllers\\API')
+Route::namespace('\\TaylorNetwork\\LaravelNexmo\\Controllers\\Api')
     ->middleware('api')
     ->prefix('api/nexmo')
     ->as('api.nexmo.')
