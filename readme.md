@@ -11,6 +11,8 @@
 - [x] Handle incoming SMS
 - [x] Handle outgoing SMS
 - [ ] Very simple real time SMS chat (being partially redone)
+- [ ] Handle input from IVR steps properly
+
 
 ## Install
 
