@@ -5,7 +5,7 @@
 ## Package Status and Goals
 
 - [x] Build NCCOs
-- [ ] Implement a very simple IVR builder (mostly done)
+- [x] Implement a very simple IVR builder
 - [x] Handle answering voice calls 
 - [x] Route calls to correct IVR menu
 - [x] Handle incoming SMS
@@ -277,12 +277,12 @@ const app = new Vue({
 
 ```
 
-#### IvrBuilder
+#### IvrApp
 
-The `IvrBuilder` component will allow you to pass an `Ivr` model instance and edit the structure of the IVR.
+The `IvrApp` component will allow you to create and edit IVR menus and steps
 
 ```html
-<ivr-builder :ivr="{{ $ivr }}"></ivr-builder>
+<ivr-app></ivr-app>
 ```
 
 Where `$ivr` is an instance of `TaylorNetwork\LaravelNexmo\Models\Ivr`

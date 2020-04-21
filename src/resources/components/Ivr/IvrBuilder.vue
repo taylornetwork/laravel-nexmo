@@ -3,10 +3,11 @@
         <div class="card">
             <div class="card-header">
                 {{ ivrModel.name }} ({{ ivrModel.slug }})
+                <a href="#" class="btn-link float-right" @click="goBack()">Close</a>
             </div>
-            <div class="card-body text-center text-muted" v-if="loading || steps.length === 0">
+            <div class="card-body text-center text-muted" v-if="loading || !hasSteps()">
                 {{ loading ? 'Loading...' : 'No steps found.' }}
-                <div v-if="steps.length === 0">
+                <div v-if="!hasSteps()">
                     <hr>
                     <button class="btn btn-block btn-outline-secondary" @click="openEditor()" :disabled="saving">
                         Add New Step
@@ -14,7 +15,7 @@
                 </div>
             </div>
 
-            <table class="table" v-if="!loading && steps.length > 0">
+            <table class="table" v-if="!loading && hasSteps()">
                 <thead>
                 <tr>
                     <th>Action</th>
@@ -128,6 +129,12 @@
             }
         },
 
+        watch: {
+            ivr() {
+                this.fetchSteps();
+            },
+        },
+
         created() {
             this.ivrModel = this.ivr;
             this.steps = this.ivr.ivr_steps;
@@ -194,6 +201,18 @@
                 axios.delete(this.baseUri + '/' + step.id).then(response => {
                     this.fetchSteps();
                 });
+            },
+
+            hasSteps() {
+                if(this.steps === undefined) {
+                    this.fetchSteps();
+                }
+
+                return this.steps.length > 0;
+            },
+
+            goBack() {
+                this.$emit('back');
             },
         },
     }

@@ -10,4 +10,4 @@ import VJsoneditor from 'v-jsoneditor'
 
 Vue.use(VJsoneditor)
 
-Vue.component('ivr-builder', require('./components/Ivr/IvrBuilder').default)
+Vue.component('ivr-app', require('./components/Ivr/IvrApp').default)

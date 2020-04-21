@@ -21,5 +21,6 @@ Route::namespace('\\TaylorNetwork\\LaravelNexmo\\Controllers\\API')
             return Config::get('ncco.number');
         });
 
+        Route::apiResource('ivr', 'IvrController');
         Route::apiResource('ivr/{ivr}/ivrStep', 'IvrStepController');
     });
