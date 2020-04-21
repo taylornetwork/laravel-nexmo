@@ -50,6 +50,8 @@ resources/
                 components/
                     Ivr/
 		        + IvrBuilder.vue
+			+ IvrMenu.vue
+			+ IvrApp.vue
 		    Sms/ (not up to date)
 		        + Messenger.vue
 			+ ComposeSms.vue
