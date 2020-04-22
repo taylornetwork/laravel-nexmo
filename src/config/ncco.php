@@ -50,4 +50,21 @@ return [
      * It should return a JSON NCCO
      */
     'answer_method' => 'answer',
+
+    /*
+     * If you want to customize the wording used for certain aspects
+     */
+    'lang' => [
+        'call' => [
+            'direction' => [
+                'inbound' => 'Incoming',
+                'outbound' => 'Outgoing',
+            ],
+            'status' => [
+                'started' => 'Started',
+                'answered' => 'Answered',
+                'completed' => 'Completed',
+            ],
+        ],
+    ],
 ];
