@@ -48,8 +48,6 @@ class IvrStep extends Model
                 throw new \Exception('IvrStep->setOptionsAttribute expected string|array|object and got ' . gettype($value));
         }
 
-        dump($value);
-
         $this->attributes['options'] = $value;
     }
 

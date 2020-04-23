@@ -5,6 +5,7 @@ namespace TaylorNetwork\LaravelNexmo;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config;
 use TaylorNetwork\LaravelNexmo\Contracts\BuildsNcco;
 use TaylorNetwork\LaravelNexmo\Contracts\BuildsNccoActions;
 use TaylorNetwork\LaravelNexmo\Contracts\RespondsWithJsonNcco;
@@ -109,7 +110,12 @@ class NccoBuilder implements BuildsNcco, BuildsNccoActions, RespondsWithJsonNcco
      */
     public function connect(array $endpoint, array $options = []): BuildsNccoActions
     {
-        $options['endpoint'] = $endpoint;
+        $options['endpoint'] = gettype(Arr::first($endpoint)) === 'array' ? $endpoint : [$endpoint];
+
+        if(!isset($options['from'])) {
+            $options['from'] = Config::get('ncco.number');
+        }
+
         $this->addAction('connect', $options);
         return $this;
     }
