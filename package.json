@@ -3,7 +3,7 @@
   "dependencies": {
     "vue": "^2.6.11",
     "vue-template-compiler": "^2.6.11",
-    "axios": "^0.19.2",
+    "axios": ">=0.21.1",
     "pusher-js": "^5.1.1",
     "v-jsoneditor": "^1.2.3"
   }
